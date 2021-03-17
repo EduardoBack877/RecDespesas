@@ -5,6 +5,14 @@
  */
 package tela;
 
+import apoio.ComboDescricao;
+import apoio.CombosDAO;
+import dao.CategoriaDAO;
+import dao.FluxoDeCaixaDAO;
+import entidade.Categoria;
+import entidade.FluxoDeCaixa;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Eduardo Back
@@ -35,6 +43,9 @@ public class IfrFinanceiro extends javax.swing.JInternalFrame {
         tfdValorFinanceiro = new javax.swing.JTextField();
         rbtnReceitas = new javax.swing.JRadioButton();
         rbtnDespesas = new javax.swing.JRadioButton();
+        jLabel4 = new javax.swing.JLabel();
+        tfdCategoriaFinanceiro = new javax.swing.JTextField();
+        btnSalvarFinanceiro = new javax.swing.JButton();
 
         label1.setText("label1");
 
@@ -59,6 +70,15 @@ public class IfrFinanceiro extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel4.setText("Categoria");
+
+        btnSalvarFinanceiro.setText("Salvar");
+        btnSalvarFinanceiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarFinanceiroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,23 +87,32 @@ public class IfrFinanceiro extends javax.swing.JInternalFrame {
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(32, 32, 32)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addGap(32, 32, 32)))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(tfdDescricaoFinanceiro)
-                                .addComponent(tfdValorFinanceiro, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(rbtnReceitas)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rbtnDespesas)))))
+                                .addComponent(tfdValorFinanceiro, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(rbtnReceitas)
+                                    .addGap(10, 10, 10)
+                                    .addComponent(rbtnDespesas))
+                                .addComponent(tfdCategoriaFinanceiro, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)))))
                 .addContainerGap(159, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalvarFinanceiro)
+                .addGap(34, 34, 34))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,11 +127,17 @@ public class IfrFinanceiro extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tfdValorFinanceiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(85, 85, 85)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(tfdCategoriaFinanceiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbtnReceitas)
                     .addComponent(rbtnDespesas))
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
+                .addComponent(btnSalvarFinanceiro)
+                .addGap(20, 20, 20))
         );
 
         pack();
@@ -112,20 +147,52 @@ public class IfrFinanceiro extends javax.swing.JInternalFrame {
        if (rbtnReceitas.isSelected())
            rbtnDespesas.setSelected(false);
     }//GEN-LAST:event_rbtnReceitasActionPerformed
-
+        public char recebeChar () {
+        if (rbtnReceitas.isSelected()) {
+            return 'R';
+        } else {
+        return 'P';
+        }
+        }
+       
+        
     private void rbtnDespesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnDespesasActionPerformed
         if (rbtnDespesas.isSelected())
            rbtnReceitas.setSelected(false);
     }//GEN-LAST:event_rbtnDespesasActionPerformed
 
+    private void btnSalvarFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarFinanceiroActionPerformed
+            FluxoDeCaixa f = new FluxoDeCaixa();
+            Double num = Double.parseDouble( tfdValorFinanceiro.getText());
+        f.setValor(num);
+        f.setDescricao(tfdDescricaoFinanceiro.getText());
+        f.setPagarreceber(recebeChar());
+        f.setCategoria(tfdCategoriaFinanceiro.getText());
+        
+        if (new FluxoDeCaixaDAO().salvar(f)) {
+            JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
+        f.setDescricao("");
+        f.setCategoria(tfdCategoriaFinanceiro.getText());
+            tfdDescricaoFinanceiro.requestFocus();
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar registro!");                                          
+        }
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalvarFinanceiroActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSalvarFinanceiro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private java.awt.Label label1;
     private javax.swing.JRadioButton rbtnDespesas;
     private javax.swing.JRadioButton rbtnReceitas;
+    private javax.swing.JTextField tfdCategoriaFinanceiro;
     private javax.swing.JTextField tfdDescricaoFinanceiro;
     private javax.swing.JTextField tfdValorFinanceiro;
     // End of variables declaration//GEN-END:variables

@@ -14,7 +14,16 @@ public class FluxoDeCaixa {
     double valor;
     String descricao;
     char pagarreceber;
-    int codcat;
+    String categoria;
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+    
 
     public int getId() {
         return id;
@@ -46,14 +55,6 @@ public class FluxoDeCaixa {
 
     public void setPagarreceber(char pagarreceber) {
         this.pagarreceber = pagarreceber;
-    }
-
-    public int getCodcat() {
-        return codcat;
-    }
-
-    public void setCodcat(int codcat) {
-        this.codcat = codcat;
     }
     
 }

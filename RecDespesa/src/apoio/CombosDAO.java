@@ -48,7 +48,7 @@ public class CombosDAO {
         combo.removeAllItems();
         
         ComboDescricao descricao = new ComboDescricao();
-        descricao.setCodigo(0);
+        descricao.setId(0);
         descricao.setDescricao("Selecione");
         combo.addItem(descricao);
 
@@ -58,7 +58,7 @@ public class CombosDAO {
             if (resultado.isBeforeFirst()) {
                 while (resultado.next()) {
                     descricao = new ComboDescricao();
-                    descricao.setCodigo(resultado.getInt(campo1));
+                    descricao.setId(resultado.getInt(campo1));
                     descricao.setDescricao(resultado.getString(campo2));
 
                     combo.addItem(descricao);
@@ -71,7 +71,7 @@ public class CombosDAO {
 
     public void definirItemCombo(JComboBox combo, ComboDescricao descricao) {
         for (int i = 0; i < combo.getItemCount(); i++) {
-            if (((ComboDescricao) combo.getItemAt(i)).getCodigo() == (descricao.getCodigo())) {
+            if (((ComboDescricao) combo.getItemAt(i)).getId() == (descricao.getId())) {
                 combo.setSelectedIndex(i);
                 return;
             }
